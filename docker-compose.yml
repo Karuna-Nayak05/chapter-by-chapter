@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  # The Backend Service
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./server/.env
+    # --- THE FIX: Force Google DNS ---
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    # ---------------------------------
+
+  # The Frontend Service
+  client:
+    build: ./client
+    ports:
+      - "3000:80"
+    depends_on:
+      - server

@@ -1,0 +1,41 @@
+name: CI Pipeline (Build & Test)
+
+# Trigger this robot whenever you push to the main branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Job 1: Build the Backend
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Backend Image
+        # This builds the server Dockerfile to check for errors
+        run: |
+          docker build -t library-server ./server
+
+  # Job 2: Build the Frontend
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Frontend Image
+        # We inject your Google Client ID here safely
+        run: |
+          docker build \
+            --build-arg REACT_APP_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+            -t library-client ./client
