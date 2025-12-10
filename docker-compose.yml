@@ -8,15 +8,27 @@ services:
       - "5000:5000"
     env_file:
       - ./server/.env
-    # --- THE FIX: Force Google DNS ---
+    # 1. DNS Fix (For MongoDB Connection)
     dns:
       - 8.8.8.8
       - 8.8.4.4
-    # ---------------------------------
+    # 2. SRE Health Check (The "Pulse")
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    # 3. Self-Healing Restart Policy
+    restart: always
 
   # The Frontend Service
   client:
-    build: ./client
+    build:
+      context: ./client
+      # Ensure your Google ID is passed here
+      args:
+        REACT_APP_GOOGLE_CLIENT_ID: 69074288933-ap9jr85qmt33ob06qu41dnaqvd5f43v8.apps.googleusercontent.com
     ports:
       - "3000:80"
     depends_on:
