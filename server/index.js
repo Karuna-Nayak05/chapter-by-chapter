@@ -3,10 +3,21 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import bookRoutes from "./routes/bookRoutes.js";
+import client from "prom-client"; // <--- CHANGED TO IMPORT
 
 // 1. Configuration
 dotenv.config();
 const app = express();
+
+// Create a Registry to hold metrics
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics(); // Collects CPU, Memory, etc. automatically
+
+// Create a new endpoint for Prometheus to scrape
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
 
 // 2. Middleware
 app.use(cors());
