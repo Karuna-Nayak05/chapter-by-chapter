@@ -144,3 +144,4 @@ client/.env
 client/build/
 server/build/
 
+*.pem
