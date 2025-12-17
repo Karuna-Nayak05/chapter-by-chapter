@@ -1,194 +1,128 @@
-# 📖 **Chapter by Chapter — Smart Reading Habit Builder**
+# 📚 Chapter by Chapter — Smart Reading Habit Builder
+### *Now featuring Enterprise-Grade SRE Observability & AWS Cloud Architecture*
 
-*A magical reading tracker with gamification, Google Login & secure backend.*
-*Now featuring an **Enterprise-Grade Self-Healing Microservices Architecture**.*
+> *"A magical reading tracker with gamification, secured by Google OAuth 2.0, and monitored like a mission-critical system."*
 
 ---
 
 ## 🌟 Overview
 
-**Chapter by Chapter** is a modern, secure, kid-friendly reading tracker built to help children build healthy reading habits through an engaging and magical UI. Beyond the magic, it is engineered as a robust **Distributed System** featuring containerized microservices, automated CI/CD pipelines, and SRE-grade reliability mechanisms.
+**Chapter by Chapter** is a modern, secure, kid-friendly reading tracker built to help children build healthy reading habits through an engaging UI.
+
+Beyond the magic, this project serves as a **Cloud-Native Reference Architecture**. It demonstrates how to take a standard MERN application and elevate it with **Production Engineering standards**: containerization, cloud deployment, and a full Site Reliability Engineering (SRE) observability pipeline.
 
 ✅ **Magical UI:** Floating bubbles, sparkles, and gamified progress.
 ✅ **Secure:** Google Sign-In (OAuth 2.0) with JWT validation.
-✅ **Reliable:** Self-healing infrastructure with auto-recovery.
-✅ **Portable:** Fully Dockerized for consistent deployment anywhere.
+✅ **Reliable:** Self-healing infrastructure with Docker auto-recovery.
+✅ **Observable:** Real-time monitoring of Node.js Event Loop and CPU usage.
 
 ---
 
-## 🚀 Engineering & DevOps Architecture (New)
+## 🚀 Engineering & DevOps Architecture
 
-This project demonstrates **Senior-Level DevOps & SRE principles** implemented on a MERN stack application.
+This project bridges the gap between **Software Development** and **Operations**.
 
 ### 🏗️ **Infrastructure**
-* **Containerization:** Fully Dockerized microservices (Frontend + Backend) using Alpine Linux images for minimal footprint.
-* **Orchestration:** Managed via **Docker Compose** with strict dependency management and network isolation.
-* **Performance:** Frontend assets are compiled via **Multi-Stage Builds** and served by a high-performance **Nginx** web server.
+* **Cloud Provider:** Deployed on **AWS EC2** (Ubuntu Linux).
+* **Containerization:** Fully Dockerized microservices (Frontend, Backend, Prometheus, Grafana).
+* **Orchestration:** Managed via **Docker Compose** with custom networking and volume persistence.
+* **Performance:** Frontend assets served via **Nginx**; Backend runs on Alpine Linux for security.
 
-### 🛠️ **Site Reliability Engineering (SRE)**
-* **Self-Healing:** Implemented active **Health Checks** (`/health` endpoint) that verify service uptime.
-* **Auto-Recovery:** Configured Docker restart policies (`restart: always`) to automatically resuscitate "zombie" or crashed containers without human intervention.
-* **Network Engineering:** Solved complex container-to-cloud DNS resolution failures (ECONNREFUSED) by configuring custom DNS resolvers (8.8.8.8) within the Docker network.
+### 🛠️ **Site Reliability Engineering (SRE) Stack**
+* **The Spy:** `prom-client` integrated into Express.js to expose runtime metrics (`/metrics`).
+* **The Collector:** **Prometheus** scrapes the application every 5 seconds to gather time-series data.
+* **The Dashboard:** **Grafana** visualizes critical health signals:
+    * **Node.js Event Loop Lag:** Ensuring non-blocking async performance.
+    * **Process CPU & Memory:** Detecting resource leaks or freezes.
+    * **Request Latency:** Monitoring API response times.
 
 ### 🤖 **CI/CD Automation**
 * **Pipeline:** GitHub Actions workflow triggers on every push to `main`.
-* **Build Verification:** Automatically builds backend and frontend Docker images in parallel to ensure build integrity.
-* **Security:** Secrets (like Google Client IDs) are securely injected during the build process via GitHub Secrets.
+* **Build Verification:** Parallel builds for Client and Server Docker images.
+* **Security:** Secrets injected dynamically via GitHub Actions.
 
 ---
 
 ## 🧠 Tech Stack
 
-### **Frontend**
-* **React.js** (Optimized with Multi-Stage Docker Build)
-* **Nginx** (Production Web Server)
-* **Google Identity Services**
-* **CSS Animations** + Custom Theme
+### **Full-Stack (MERN)**
+* **Frontend:** React.js, Tailwind CSS, Framer Motion (Animations)
+* **Backend:** Node.js, Express.js
+* **Database:** MongoDB Atlas (Cloud)
+* **Auth:** Google Identity Services (OAuth 2.0)
 
-### **Backend**
-* **Node.js & Express.js** (Alpine Linux Containerized)
-* **MongoDB Atlas** (Cloud Database)
-* **Mongoose ODM**
-* **Google Auth Library**
-
-### **DevOps & Infrastructure**
-* **Docker & Docker Compose**
-* **GitHub Actions** (CI/CD)
-* **Linux Networking** (DNS & Port Management)
+### **DevOps & Monitoring**
+* **Container:** Docker, Docker Compose
+* **Cloud:** AWS EC2
+* **Monitoring:** Prometheus, Grafana
+* **Server:** Nginx (Reverse Proxy)
 
 ---
 
 ## ⚙️ Setup Instructions (The DevOps Way)
 
 ### Prerequisites
-* Docker Desktop installed & running
-* Google Cloud Console Credentials
+* Docker Desktop installed & running.
+* Google Cloud Console Credentials.
 
 ### 1️⃣ Clone & Configure
-```bash
+```
 git clone [https://github.com/Karuna-Nayak05/chapter-by-chapter.git](https://github.com/Karuna-Nayak05/chapter-by-chapter.git)
 cd chapter-by-chapter
-````
-
+```
 **Create Secret Files:**
-Since this is a 12-Factor App, secrets are never committed. Create a `.env` file in the `server/` folder:
+Create a `.env` file in the `server/` folder and `client/` folder:
 
-```bash
+```
 # server/.env
 MONGO_URI=<your_mongodb_connection_string>
-GOOGLE_CLIENT_ID=<your_google_client_id>
 PORT=5000
-```
 
+# client/.env
+REACT_APP_GOOGLE_CLIENT_ID=<your_google_id>
+REACT_APP_API_URL=http://localhost:5000
+```
 ### 2️⃣ The Magic "One-Click" Start
+Run the entire stack (App + Monitoring) with a single command:
 
-No need to install Node modules manually. Docker handles everything.
-
-```bash
-# Build and Run the entire stack
-docker-compose up --build
 ```
+docker compose up -d --build
+```
+### 3️⃣ Access the Services
 
-### 3️⃣ Access the App
-
-  * **Frontend (App):** [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000)
-  * **Backend (API):** [http://localhost:5000](https://www.google.com/search?q=http://localhost:5000)
-  * **Health Check:** [http://localhost:5000/health](https://www.google.com/search?q=http://localhost:5000/health) (Returns "OK")
-
------
-
-## 🎯 Features
-
-### ✅ **User Authentication**
-
-  * Secure Google OAuth 2.0 login
-  * JWT validation on backend
-  * Each user has their own private book collection
-
-### ✅ **Library Management**
-
-  * Add books with status + notes + ratings
-  * Update existing book entries
-  * Delete books
-  * Real-time UI refresh
-
-### ✅ **Gamification**
-
-  * Points for reading
-  * Progress animations
-  * Unique badges for milestones
-
-### ✅ **Motivational UX**
-
-  * Floating bubble showing encouraging messages
-  * Magical sparkles and glowing UI elements
-
------
+| Service | URL | Description |
+| :--- | :--- | :--- |
+| **Application** | `http://localhost:3000` | The React Frontend |
+| **API** | `http://localhost:5000` | The Node.js Backend |
+| **Prometheus** | `http://localhost:9090` | Metric Collector |
+| **Grafana** | `http://localhost:3001` | **SRE Dashboard** (Login: `admin`/`admin`) |
 
 ## 🧱 Architecture Diagram
 
-```text
-            ┌────────────────────┐
-            │     Frontend       │
-            │   React + Google   │
-            │  Sign-In Button    │
-            └─────────▲──────────┘
-                      │ JWT Token
-                      │
-                      ▼
-            ┌────────────────────┐
-            │   Express Server   │
-            │  verifyGoogleAuth  │
-            └─────────▲──────────┘
-                      │ userId
-                      │
-                      ▼
-            ┌────────────────────┐
-            │   MongoDB Atlas    │
-            │  Books by userId   │
-            └────────────────────┘
 ```
-
------
-
-## 📁 Folder Structure
-
-```text
-chapter-by-chapter/
-│
-├── .github/
-│   └── workflows/      # CI/CD Pipeline Configuration
-│       └── ci-pipeline.yml
-│
-├── client/
-│   ├── Dockerfile      # Multi-stage Nginx build
-│   ├── src/
-│   └── public/
-│
-├── server/
-│   ├── Dockerfile      # Alpine Node.js build
-│   ├── models/
-│   ├── routes/
-│   └── index.js        # Includes SRE Health Checks
-│
-├── docker-compose.yml  # Orchestration & Self-Healing Config
-├── .env.example
-├── README.md
-└── .gitignore
+       [ Browser / Client ]
+              │
+              ▼
+      [ Nginx Web Server ]
+              │
+              ▼
+    ┌────────────────────┐          ┌──────────────────┐
+    │   Node.js Server   │◀─────────│    Prometheus    │
+    │  (Exposes /metrics)│          │ (Scrapes data)   │
+    └─────────┬──────────┘          └─────────▲────────┘
+              │                               │
+              ▼                               │
+    ┌────────────────────┐          ┌──────────────────┐
+    │   MongoDB Atlas    │          │     Grafana      │
+    │  (Persistent Data) │          │   (Visualizes)   │
+    └────────────────────┘          └──────────────────┘
 ```
-
------
-
-## 🔐 Authentication Flow
-
-1.  **User clicks “Sign in with Google”** → Google returns a **JWT credential token**.
-2.  **Frontend decodes token** → Extracts name, email, & picture.
-3.  **Backend verifies token** → Uses `google-auth-library` to validate identity on every request.
-4.  **Data Isolation** → Books are saved with a `userId` field, ensuring private libraries.
-
------
-
 ## 📸 Screenshots
+
+### 📊 SRE Observability Dashboard 
+
+<img width="1510" height="762" alt="Screenshot 2025-12-15 155749" src="https://github.com/user-attachments/assets/73b15eb6-64ce-4d37-837f-b9f5fd9474a2" />
+Real-time System Monitoring: The dashboard below tracks the "Vital Signs" of the backend. It allows for proactive detection of memory leaks (Heap Usage) and performance bottlenecks (Event Loop Lag).
 
 ### 🔐 Login Screen
 
@@ -219,6 +153,7 @@ Kids earn points, unlock badges, and grow their reading streaks.
   * Export reading summary as PDF
   * Leaderboard for kids
   * AI-powered book recommendations
+
 
 -----
 
