@@ -80,8 +80,16 @@ PORT=5000
 
 # client/.env
 REACT_APP_GOOGLE_CLIENT_ID=<your_google_id>
-REACT_APP_API_URL=http://localhost:5000
 ```
+### 🔑 Google Cloud Config (Critical)
+To enable Google Sign-In, configure your OAuth Consent Screen in the Google Cloud Console:
+* **Authorized JavaScript Origins:**
+  * Local: `http://localhost:3000`
+  * Cloud: `http://YOUR_AWS_IP.nip.io:3000` (Use `nip.io` to allow dynamic IPs)
+* **Authorized Redirect URIs:**
+  * Local: `http://localhost:3000`
+  * Cloud: `http://YOUR_AWS_IP.nip.io:3000`
+  
 ### 2️⃣ The Magic "One-Click" Start
 Run the entire stack (App + Monitoring) with a single command:
 
